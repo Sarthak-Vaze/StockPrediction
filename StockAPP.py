@@ -72,6 +72,23 @@ def Comparison(): #Compares the stocks of various brands
     axes.set_xlabel("date")
     axes.legend(companies)
     st.pyplot(fig)
+    
+
+    for comp in companies:
+        # Create a Ticker object for the stock symbol
+        ticker = yf.Ticker(comp)
+
+        news_data = ticker.news
+
+        st.sidebar.title("Finance News for " + options_dict[comp])
+        st.sidebar.subheader("------------------------------------------------")
+        for idx, news_item in enumerate(news_data):
+            st.sidebar.subheader(f"{idx + 1}: {news_item['title']}")
+            st.sidebar.markdown("URL: [Read more](" + news_item['link'] + ")")
+            st.sidebar.markdown("----")
+        st.sidebar.subheader("------------------------------------------------")
+
+
 
 
 
@@ -225,59 +242,23 @@ def Prediction(): #Predicts the future stock price for a particular brand
         st.pyplot(fig1)
 
     pred()
+    
+    # Create a Ticker object for the stock symbol
+    ticker = yf.Ticker(Tick)
+
+    news_data = ticker.news
+
+    st.sidebar.title("Finance News for " + options_dict[Tick])
+    st.sidebar.subheader("------------------------------------------------")
+    for idx, news_item in enumerate(news_data):
+        st.sidebar.subheader(f"{idx + 1}: {news_item['title']}")
+        st.sidebar.markdown("URL: [Read more](" + news_item['link'] + ")")
+        st.sidebar.markdown("----")
+
 
 
 if(choice=="Stock Comparison"):
     Comparison()
 else:
     Prediction()
-
-
-#NEWS SIDEBAR
-
-options = [
-                            {'label': 'Morgan Stanley', 'value': 'MS'},
-                            {'label': 'JP Morgan', 'value': 'JPM'},
-                            {'label': 'Wells Fargo & co.', 'value': 'WFC'},
-                            {'label': 'Goldman Sachs', 'value': 'GS'},
-                            {'label': 'Amazon.com, Inc.', 'value': 'AMZN'},
-                            {'label': 'Tesla, Inc.', 'value': 'TSLA'},
-                            {'label': 'Snap, Inc.', 'value': 'SNAP'},
-                            {'label': 'Intel Comporation', 'value': 'INTC'},
-                            {'label': 'Pinterest, Inc.', 'value': 'PINS'},
-                            {'label': 'SoFi Technologies, Inc.', 'value': 'SOFI'},
-                            {'label': 'Apple, Inc.', 'value': 'AAPL'},
-                            {'label': 'New York Community Bancorp, Inc.', 'value': 'NYCB'},
-                            {'label': 'Ford Motor Company', 'value': 'F'},
-                            {'label': 'Advanced Micro Devices, Inc.', 'value': 'AMD'},
-                            {'label': 'Bank of America Corporation', 'value': 'BAC'},
-                            {'label': 'American Airlines Group Inc.', 'value': 'AAL'},
-                            {'label': 'Southwestern Energy Company', 'value': 'SWN'},
-                            {'label': 'AT&T Inc.', 'value': 'T'},
-                            {'label': 'NIO, Inc.', 'value': 'NIO'},
-                            {'label': 'Petróleo Brasileiro S.A. - Petrobras', 'value': 'PBR'},
-                            {'label': 'Microsoft Corporation', 'value': 'MSFT'},
-                            {'label': 'Meta Platforms, Inc.', 'value': 'META'},
-                            {'label': 'Credit Suisse Group AG', 'value': 'CS'},
-                            {'label': 'NVIDIA Corporation', 'value': 'NVDA'},
-                            {'label': 'Alphabet Inc.', 'value': 'GOOGL'}
-    ]
-options_dict = {item['value']: item['label'] for item in options}
-
-selected_option = st.sidebar.selectbox("Select The brand to get the News!", [item['label'] for item in options])
-
-stock_symbol= [item['value'] for item in options if item['label'] == selected_option][0]
-
-# Create a Ticker object for the stock symbol
-ticker = yf.Ticker(stock_symbol)
-
-news_data = ticker.news
-
-st.sidebar.title("Finance News for " + stock_symbol)
-
-for idx, news_item in enumerate(news_data):
-    st.sidebar.subheader(f"{idx + 1}: {news_item['title']}")
-    st.sidebar.markdown("URL: [Read more](" + news_item['link'] + ")")
-    st.sidebar.markdown("----")
-
 
