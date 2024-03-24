@@ -6,3 +6,4 @@ How to run
 2.Type command:
 
     streamlit run StockAPP.py
+OR SEE THE VIDEO
